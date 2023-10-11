@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:24:35 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/10 12:55:44 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/11 15:21:49 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,28 @@ int	ft_atoi(const char *str)
 	}
 	return (nb * sign);
 }
+
+uint64_t	get_time(void)
+{
+	struct timeval	tv;
+	
+	if (gettimeofday(&tv, NULL))
+		return (error("gettimeofday() FAILURE\n", NULL));
+	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
+}
+
+int	ft_usleep(unsigned long time)
+{
+    struct timespec req;
+    req.tv_sec = time / 1000;
+    req.tv_nsec = (time % 1000) * 1000000;
+    
+    if (nanosleep(&req, NULL) == -1) 
+    {
+        printf("nanosleep");
+        return -1;
+    }
+    
+    return 0;
+}
+

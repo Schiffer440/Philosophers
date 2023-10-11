@@ -6,11 +6,26 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:28:55 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/11 11:40:34 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/11 15:24:29 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	lonely_philo(t_data *data)
+{
+	data->start_time = get_time();
+	if (pthread_create(&data->th[0], NULL, &routine, &data->philos[0]) != 0)
+		return (ft_error(TH_ERROR, data));
+	pthread_detach(data->th[0]);
+	while (data->dead == 0)
+	{
+		if (ft_usleep(0) != 0)
+			return(ft_error(TIME_ERROR, data));
+	}
+	free_all(data);
+	return (0);
+}
 
 void	free_all(t_data *data)
 {
@@ -32,6 +47,12 @@ void	free_all(t_data *data)
 		free(data->fork);
 }
 
+int	ft_error(char *str, t_data *data)
+{
+	printf("%s\n", str);
+	free_all(data);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -42,6 +63,8 @@ int	main(int ac, char **av)
 			return (printf("Wrong args...\n"));
 		if (init(&data, av, ac) != 0)
 			return (printf("Init error...\n"));
+		if(data.nb_of_philo == 1)
+			lonely_philo(&data);
 	}
 	else
 		printf("usage ./Philo philos_number time_to_die time_\

@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:00:03 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/11 11:19:02 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/11 15:23:42 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <pthread.h>
 # include <stdint.h>
 # include <stdlib.h>
+# include <sys/time.h>
+# define TH_ERROR "Error creating thread"
+# define TIME_ERROR "Time error"
 
 struct	s_data;
 
@@ -54,5 +57,7 @@ typedef struct s_data
 int	ft_atoi(const char *str);
 int	check_args(char **av);
 int	init(t_data *data, char **av, int ac);
+void	free_all(t_data *data);
+uint64_t	get_time(void);
 
 #endif
