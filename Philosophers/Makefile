@@ -6,13 +6,13 @@
 #    By: adugain <adugain@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/11 10:59:12 by adugain           #+#    #+#              #
-#    Updated: 2023/10/11 11:01:37 by adugain          ###   ########.fr        #
+#    Updated: 2023/10/26 13:57:00 by adugain          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = Philo
 
-SRC = main.c init.c utils.c
+SRC = main.c init.c utils.c check.c routines.c supervisor.c monitor.c 
 
 CFLAGS	= -Wextra -Wall -Werror -MMD -g3
 

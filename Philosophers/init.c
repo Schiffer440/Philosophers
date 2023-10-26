@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:05:35 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/11 11:39:12 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/26 12:17:54 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ static int	malloc_t_m(t_data *data)
 		return (1);
 	data->philos = malloc(sizeof(t_philo) * data->nb_of_philo);
 	if (!data->philos)
-		return (2);
+		return (free(data->th), 2);
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->nb_of_philo);
 	if (!data->fork)
+	{
+		free(data->th);
+		free(data->philos);
 		return (3);
+	}
 	return (0);
 }
 
@@ -68,7 +72,7 @@ static int	init_forks(t_data *data)
 	return (0);
 }
 
-static int	init_data(t_data *data, char **av, int ac)
+static void	init_data(t_data *data, char **av, int ac)
 {
 	data->nb_of_philo = (int) ft_atoi(av[1]);
 	data->death_time = (uint64_t) ft_atoi(av[2]);
@@ -80,18 +84,16 @@ static int	init_data(t_data *data, char **av, int ac)
 	data->done = 0;
 	pthread_mutex_init(&data->lock, NULL);
 	pthread_mutex_init(&data->write, NULL);
-	return (0);
 }
 
 int	init(t_data *data, char **av, int ac)
 {
-	if (init_data(data, av, ac) != 0)
-		return (1);
+	(init_data(data, av, ac));
 	if (malloc_t_m(data) != 0)
-		return (2);
+		return (1);
 	if (init_philos(data) != 0)
-		return (3);
+		return (2);
 	if (init_forks(data) != 0)
-		return (4);
+		return (3);
 	return (0);
 }

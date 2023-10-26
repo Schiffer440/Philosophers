@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:00:03 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/11 15:23:42 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/26 13:58:32 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <sys/time.h>
-# define TH_ERROR "Error creating thread"
-# define TIME_ERROR "Time error"
+# define TH_ERROR "Error creating thread\n"
+# define JOIN_ERROR "Error joining thread\n"
+# define TIME_ERROR "Time error\n"
+# define DEAD 4
+# define EATING 1
+# define SLEEPING 2
+# define THINKING 3
 
 struct	s_data;
 
@@ -59,5 +64,15 @@ int	check_args(char **av);
 int	init(t_data *data, char **av, int ac);
 void	free_all(t_data *data);
 uint64_t	get_time(void);
+void	*philo_routine(void *arg);
+int	check_vitals(t_philo *philo);
+void	print_message(char *str, t_philo *philo, int index);
+int	ft_error(char *str, t_data *data);
+int	ft_usleep(unsigned long time);
+void	think_r(t_philo *philo);
+void	sleep_r(t_philo *philo);
+int	supervisor(t_data *data);
+void	*monitor(void *arg);
+void	eat_r(t_philo *philo);
 
 #endif

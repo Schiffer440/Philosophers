@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:24:35 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/11 15:21:49 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/26 13:57:45 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ uint64_t	get_time(void)
 	struct timeval	tv;
 	
 	if (gettimeofday(&tv, NULL))
-		return (error("gettimeofday() FAILURE\n", NULL));
+		return (ft_error("gettimeofday() FAILURE\n", NULL));
 	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
 }
 
@@ -74,5 +74,16 @@ int	ft_usleep(unsigned long time)
     }
     
     return 0;
+}
+
+void	print_message(char *str, t_philo *philo, int index)
+{
+	u_int64_t	time;
+
+	pthread_mutex_lock(&philo->data->write);
+	time = get_time() - philo->data->start_time;
+	if (check_vitals(philo) != DEAD)
+		printf("%lu %d %s %lu\n", time, index + 1, str, philo->time_to_die);
+	pthread_mutex_unlock(&philo->data->write);
 }
 
