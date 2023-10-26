@@ -6,26 +6,26 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:28:55 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/26 14:06:13 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/26 16:26:58 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	lonely_philo(t_data *data)
-{
-	data->start_time = get_time();
-	if (pthread_create(&data->th[0], NULL, &philo_routine, &data->philos[0]) != 0)
-		return (ft_error(TH_ERROR, data));
-	pthread_detach(data->th[0]);
-	while (data->dead == 0)
-	{
-		if (ft_usleep(0) != 0)
-			return(ft_error(TIME_ERROR, data));
-	}
-	free_all(data);
-	return (0);
-}
+// int	lonely_philo(t_data *data)
+// {
+// 	data->start_time = get_time();
+// 	if (pthread_create(&data->th[0], NULL, &philo_routine, &data->philos[0]) != 0)
+// 		return (ft_error(TH_ERROR, data));
+// 	pthread_detach(data->th[0]);
+// 	while (data->dead == 0)
+// 	{
+// 		if (ft_usleep(0) != 0)
+// 			return(ft_error(TIME_ERROR, data));
+// 	}
+// 	free_all(data);
+// 	return (0);
+// // }
 
 void	free_all(t_data *data)
 {
@@ -34,15 +34,14 @@ void	free_all(t_data *data)
 	i = -1;
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->lock);
+	pthread_mutex_destroy(&data->eat);
 	while (++i < data->nb_of_philo)
 	{
-		if (&data->philos[i].lock)
-			pthread_mutex_destroy(&data->philos[i].lock);
+		if (data->philos[i].lock)
+			pthread_mutex_destroy(data->philos[i].lock);
 		if (&data->fork[i])
 			pthread_mutex_destroy(&data->fork[i]);
 	}
-	if (data->th)
-		free(data->th);
 	if (data->philos)
 		free(data->philos);
 	if (data->fork)

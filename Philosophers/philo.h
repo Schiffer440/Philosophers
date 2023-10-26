@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:00:03 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/26 13:58:32 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/26 16:43:57 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,17 @@ typedef struct s_philo
 	int				status;
 	int				eating;
 	uint64_t		time_to_die;
-	pthread_mutex_t	lock;
+	pthread_mutex_t	*eat;
+	pthread_mutex_t	*lock;
+	pthread_mutex_t *sleep;
+	pthread_mutex_t *think;
+	pthread_mutex_t	*write;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
 }t_philo;
 
 typedef struct s_data
 {
-	pthread_t	*th;
 	t_philo		*philos;
 	int			nb_of_philo;
 	int			meal_needed;
@@ -55,7 +58,10 @@ typedef struct s_data
 	uint64_t	time_to_eat;
 	uint64_t	start_time;
 	pthread_mutex_t	lock;
+	pthread_mutex_t sleep;
+	pthread_mutex_t think;
 	pthread_mutex_t	write;
+	pthread_mutex_t	eat;
 	pthread_mutex_t	*fork;
 }t_data;
 

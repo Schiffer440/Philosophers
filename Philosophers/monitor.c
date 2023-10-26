@@ -1,16 +1,16 @@
 #include "philo.h"
 
-static int	is_dead(t_philo philo)
+static int	is_dead(t_philo *philo)
 {
-	pthread_mutex_lock(&philo.lock);
-	if (philo.time_to_die <= 0 || philo.time_to_die < philo.data->time_to_eat
-		|| philo.time_to_die < philo.data->time_to_sleep)
+	pthread_mutex_lock(philo->lock);
+	if (philo->time_to_die <= 0 || philo->time_to_die < philo->data->time_to_eat
+		|| philo->time_to_die < philo->data->time_to_sleep)
 	{
-		philo.status = DEAD;
-		return(philo.status);
+		philo->status = DEAD;
+		return(philo->status);
 	}
-	pthread_mutex_unlock(&philo.lock);
-	return(philo.status);
+	pthread_mutex_unlock(philo->lock);
+	return(philo->status);
 }
 
 static int	dead_check(t_data *data)
@@ -18,9 +18,9 @@ static int	dead_check(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i <= data->nb_of_philo)
+	while (i < data->nb_of_philo)
 	{
-		if (is_dead(data->philos[i]) == DEAD)
+		if (is_dead(&data->philos[i]) == DEAD)
 			return(1);
 		i++;
 	}
@@ -34,12 +34,12 @@ static int	are_full(t_data *data)
 
 	finished = 0;
 	i = 0;
-	while(i <= data->nb_of_philo)
+	while(i < data->nb_of_philo)
 	{
-		pthread_mutex_lock(&data->philos[i].lock);
+		pthread_mutex_lock(data->philos[i].lock);
 		if (data->philos[i].meal_count == data->meal_needed)
 			finished++;
-		pthread_mutex_unlock(&data->philos[i].lock);
+		pthread_mutex_unlock(data->philos[i].lock);
 		i++;
 	}
 	if (finished >= data->nb_of_philo)
