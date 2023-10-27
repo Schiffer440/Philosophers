@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:24:35 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/26 13:57:45 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/27 11:57:11 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ int	ft_usleep(unsigned long time)
 
 void	print_message(char *str, t_philo *philo, int index)
 {
-	u_int64_t	time;
+	uint64_t	time;
 
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start_time;
 	if (check_vitals(philo) != DEAD)
-		printf("%lu %d %s %lu\n", time, index + 1, str, philo->time_to_die);
+		printf("%lu %d %s %lu\n", time, index, str, philo->time_to_die);
 	pthread_mutex_unlock(&philo->data->write);
 }
 

@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:00:03 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/26 16:43:57 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/27 11:02:44 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define EATING 1
 # define SLEEPING 2
 # define THINKING 3
+# define FULL 5
 
 struct	s_data;
 

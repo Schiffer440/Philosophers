@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 13:05:35 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/26 16:50:13 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/27 11:56:41 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	init_philos(t_data *data)
 	{
 		data->philos[i].data = data;
 		data->philos[i].index = i + 1;
+		printf("///////////PHILO: %d\n", data->philos[i].index);
 		data->philos[i].time_to_die = data->death_time;
 		data->philos[i].eating = 0;
 		data->philos[i].status = 0;

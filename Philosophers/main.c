@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:28:55 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/26 16:26:58 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/27 11:58:49 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,11 @@ int	main(int ac, char **av)
 		if (init(&data, av, ac) != 0)
 			return (printf("Init error...\n"));
 		if (supervisor(&data) != 0)
+		{
+			printf("fail\n");
 			free_all(&data);
+				
+		}
 		else
 		{
 			printf("Success\n");

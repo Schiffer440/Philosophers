@@ -3,21 +3,18 @@
 int	supervisor(t_data *data)
 {
 	pthread_t overseer;
-	pthread_t	th;
 	int	i;
 	
 	i = 0;
-	if (pthread_create(&overseer, NULL, &monitor, &data) != 0)
+	if (pthread_create(&overseer, NULL, &monitor, data) != 0)
 	{
 		printf(TH_ERROR);
 		return(1);
 	}
 	while(i < data->nb_of_philo)
 	{
-		printf("here\n");
-		if (pthread_create(&th, NULL, &philo_routine, &data->philos[i]))
+		if (pthread_create(&data->philos[i].t, NULL, &philo_routine, &data->philos[i]) != 0)
 		{
-			
 			free_all(data);
 			return (2);
 		}
@@ -31,7 +28,7 @@ int	supervisor(t_data *data)
 	i = 0;
 	while (i < data->nb_of_philo)
 	{
-		if (pthread_join(th, NULL) != 0)
+		if (pthread_join(data->philos[i].t, NULL) != 0)
 		{
 			printf(JOIN_ERROR);
 			return(4);
