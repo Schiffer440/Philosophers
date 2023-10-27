@@ -1,16 +1,22 @@
 #include "philo.h"
 
-static int	is_dead(t_philo *philo)
+static int	is_dead(t_philo philo)
 {
-	pthread_mutex_lock(&philo->data->lock);
-	if (philo->time_to_die <= 0 || philo->time_to_die < philo->data->time_to_eat
-		|| philo->time_to_die < philo->data->time_to_sleep)
+	uint64_t	time;
+
+	// pthread_mutex_lock(&philo.data->write);
+	time = get_time() - philo.data->start_time;
+	// printf("TTD%ld\n", philo.time_to_die);
+	// printf("Time%ld\n", time);
+	// printf("last meal%ld\n", philo.last_meal);
+	if ((time - philo.last_meal) > philo.time_to_die)
 	{
-		philo->status = DEAD;
-		return(philo->status);
+		philo.status = DEAD;
+		// printf("////////Status: %d/////////\n", philo.status);
+		return(philo.status);
 	}
-	pthread_mutex_unlock(&philo->data->lock);
-	return(philo->status);
+	// pthread_mutex_unlock(&philo.data->write);
+	return(philo.status);
 }
 
 static int	dead_check(t_data *data)
@@ -18,15 +24,19 @@ static int	dead_check(t_data *data)
 	int	i;
 
 	i = 0;
+	// printf("/////Death checking...../////\n");
 	while (i < data->nb_of_philo)
 	{
-		if (is_dead(&data->philos[i]) == DEAD)
+		pthread_mutex_lock(&data->eat);
+		if (is_dead(data->philos[i]) == DEAD)
 		{
-			// print_message("just died !!!", &data->philos[i], data->philos[i].index);
+			print_message("just died\n", data->philos, data->philos[i].index);
+			pthread_mutex_lock(data->philos[i].lock);
 			data->dead = 1;
-			return(1);
+			pthread_mutex_unlock(data->philos[i].lock);
+			return (pthread_mutex_unlock(&data->eat), 1);
 		}
-			
+		pthread_mutex_unlock(&data->eat);
 		i++;
 	}
 	return(0);
@@ -58,15 +68,17 @@ static int	are_full(t_data *data)
 	return(0);
 }
 
-void	*monitor(void *arg)
+int	monitor(void *arg)
 {
 	t_data	*data;
 
 	data = (t_data *)arg;
+	// printf("//////Phi:")
 	while(1)
 	{
-		if (dead_check(data) == 1 || are_full(data) == 1)
-			break ;
+		if (dead_check(data) == 1)
+			return (1);
+		else if (are_full(data) == 1)
+			return (0);
 	}
-	return(arg);
 }

@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:00:03 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/27 11:02:44 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/27 17:09:59 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
 	int				meal_count;
 	int				status;
 	int				eating;
+	uint64_t		last_meal;
 	uint64_t		time_to_die;
 	pthread_mutex_t	*eat;
 	pthread_mutex_t	*lock;
@@ -75,11 +76,11 @@ void	*philo_routine(void *arg);
 int	check_vitals(t_philo *philo);
 void	print_message(char *str, t_philo *philo, int index);
 int	ft_error(char *str, t_data *data);
-int	ft_usleep(unsigned long time);
+// int	ft_usleep(unsigned long time);
 void	think_r(t_philo *philo);
 void	sleep_r(t_philo *philo);
 int	supervisor(t_data *data);
-void	*monitor(void *arg);
+int	monitor(void *arg);
 void	eat_r(t_philo *philo);
 
 #endif

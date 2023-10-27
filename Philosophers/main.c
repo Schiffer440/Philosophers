@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:28:55 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/27 11:58:49 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/27 18:36:46 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@
 void	free_all(t_data *data)
 {
 	int	i;
-	
+
 	i = -1;
 	pthread_mutex_destroy(&data->write);
 	pthread_mutex_destroy(&data->lock);
 	pthread_mutex_destroy(&data->eat);
+	pthread_mutex_destroy(&data->sleep);
+	pthread_mutex_destroy(&data->think);
 	while (++i < data->nb_of_philo)
 	{
-		if (data->philos[i].lock)
-			pthread_mutex_destroy(data->philos[i].lock);
 		if (&data->fork[i])
 			pthread_mutex_destroy(&data->fork[i]);
 	}
@@ -67,13 +67,12 @@ int	main(int ac, char **av)
 			return (printf("Init error...\n"));
 		if (supervisor(&data) != 0)
 		{
-			printf("fail\n");
+			// printf("fail\n");
 			free_all(&data);
-				
 		}
 		else
 		{
-			printf("Success\n");
+			// printf("Success\n");
 			free_all(&data);
 		}
 		

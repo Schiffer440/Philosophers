@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 12:24:35 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/27 11:57:11 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/27 17:07:26 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,25 @@ int	ft_atoi(const char *str)
 uint64_t	get_time(void)
 {
 	struct timeval	tv;
-	
+
 	if (gettimeofday(&tv, NULL))
 		return (ft_error("gettimeofday() FAILURE\n", NULL));
 	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
+	// get_time(void) - getimeofday(0) //
 }
 
-int	ft_usleep(unsigned long time)
+// int	ft_usleep(unsigned long time)
+// {
+//     struct timespec req;
+//     req.tv_sec = time / 1000;
+//     req.tv_nsec = (time % 1000) * 100000;
+
+//     return 0;
+// }
+
+uint64_t	timeleft(t_philo *philo)
 {
-    struct timespec req;
-    req.tv_sec = time / 1000;
-    req.tv_nsec = (time % 1000) * 1000000;
-    
-    if (nanosleep(&req, NULL) == -1) 
-    {
-        printf("nanosleep");
-        return -1;
-    }
-    
-    return 0;
+	return (philo->data->start_time - philo->last_meal);
 }
 
 void	print_message(char *str, t_philo *philo, int index)
@@ -82,8 +82,10 @@ void	print_message(char *str, t_philo *philo, int index)
 
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start_time;
-	if (check_vitals(philo) != DEAD)
-		printf("%lu %d %s %lu\n", time, index, str, philo->time_to_die);
+	if (philo->data->dead != 0)
+		printf("%ld %d %s %ld\n", time, index, str, timeleft(philo));
+	else
+		printf("%ld %d %s\n", time, index, str);
 	pthread_mutex_unlock(&philo->data->write);
 }
 
