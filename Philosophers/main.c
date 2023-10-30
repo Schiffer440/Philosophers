@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:28:55 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/27 18:36:46 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/30 08:59:20 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ void	free_all(t_data *data)
 	pthread_mutex_destroy(&data->think);
 	while (++i < data->nb_of_philo)
 	{
-		if (&data->fork[i])
-			pthread_mutex_destroy(&data->fork[i]);
+		pthread_mutex_destroy(&data->fork[i]);
 	}
 	if (data->philos)
 		free(data->philos);
@@ -65,17 +64,8 @@ int	main(int ac, char **av)
 			return (printf("Wrong args...\n"));
 		if (init(&data, av, ac) != 0)
 			return (printf("Init error...\n"));
-		if (supervisor(&data) != 0)
-		{
-			// printf("fail\n");
+		(supervisor(&data));
 			free_all(&data);
-		}
-		else
-		{
-			// printf("Success\n");
-			free_all(&data);
-		}
-		
 	}
 	else
 		printf("usage ./Philo [philos_number] [time_to_die] [time_\

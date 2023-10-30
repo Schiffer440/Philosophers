@@ -6,7 +6,7 @@
 /*   By: adugain <adugain@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:01:25 by adugain           #+#    #+#             */
-/*   Updated: 2023/10/27 18:19:06 by adugain          ###   ########.fr       */
+/*   Updated: 2023/10/30 09:46:52 by adugain          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ void	think_r(t_philo *philo)
 
 void	sleep_r(t_philo *philo)
 {
+	pthread_mutex_lock(philo->eat);
 	if (philo->status == EATING)
 		pthread_mutex_lock(philo->sleep);
 	philo->status = SLEEPING;
 	print_message("is sleeping", philo, philo->index);
 	usleep(philo->data->time_to_sleep * 1000);
 	pthread_mutex_unlock(philo->sleep);
+	pthread_mutex_unlock(philo->eat);
 }
 
 void	eat_r(t_philo *philo)

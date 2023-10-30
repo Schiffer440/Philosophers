@@ -30,8 +30,8 @@ static int	dead_check(t_data *data)
 		pthread_mutex_lock(&data->eat);
 		if (is_dead(data->philos[i]) == DEAD)
 		{
-			print_message("just died\n", data->philos, data->philos[i].index);
 			pthread_mutex_lock(data->philos[i].lock);
+			print_message("just died\n", data->philos, data->philos[i].index);
 			data->dead = 1;
 			pthread_mutex_unlock(data->philos[i].lock);
 			return (pthread_mutex_unlock(&data->eat), 1);
